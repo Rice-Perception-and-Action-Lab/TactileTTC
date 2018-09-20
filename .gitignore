@@ -267,7 +267,8 @@ FakesAssemblies/
 # Visual Studio 2015 cache/options directory
 .vs/
 *.exe
-*.exe
-*.exe
-*.exe
 *.pdb
+
+# TDK Files #
+TdkInterface.cs
+*.dll
