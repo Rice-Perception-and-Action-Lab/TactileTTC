@@ -1,9 +1,0 @@
-C:\Users\amb24\source\repos\TactorTest\TactorTest\bin\x86\Release\TactorTest.exe.config
-C:\Users\amb24\source\repos\TactorTest\TactorTest\bin\x86\Release\TactorTest.exe
-C:\Users\amb24\source\repos\TactorTest\TactorTest\bin\x86\Release\TactorTest.pdb
-C:\Users\amb24\source\repos\TactorTest\TactorTest\obj\x86\Release\TactorTest.Form1.resources
-C:\Users\amb24\source\repos\TactorTest\TactorTest\obj\x86\Release\TactorTest.Properties.Resources.resources
-C:\Users\amb24\source\repos\TactorTest\TactorTest\obj\x86\Release\TactorTest.csproj.GenerateResource.cache
-C:\Users\amb24\source\repos\TactorTest\TactorTest\obj\x86\Release\TactorTest.csproj.CoreCompileInputs.cache
-C:\Users\amb24\source\repos\TactorTest\TactorTest\obj\x86\Release\TactorTest.exe
-C:\Users\amb24\source\repos\TactorTest\TactorTest\obj\x86\Release\TactorTest.pdb
