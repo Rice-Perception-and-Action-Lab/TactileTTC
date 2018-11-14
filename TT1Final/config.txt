@@ -1,0 +1,7 @@
+#This experiment supports 2 types of inputs: input variables to generate
+soundwaves or input soundwaves directly. The mode numberfor input variables
+is 1. The mode number for input soundwave is 2. You can change mode code below.
+To switch from one mode to the other, simply change the number below (to either 1 or 2).
+Please do not modify/delete anything other than that unless you know what you are doing.
+
+2

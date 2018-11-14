@@ -1,2 +1,0 @@
-SUBJECT	 TRIAL	 VEL	 TTC	 RT
-test	 1	 30	 3.00	 6.480174
