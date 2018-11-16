@@ -54,24 +54,25 @@
             this.richTextBox1.Size = new System.Drawing.Size(200, 115);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // fireTactor1
             // 
-            this.fireTactor1.Location = new System.Drawing.Point(49, 52);
+            this.fireTactor1.Location = new System.Drawing.Point(49, 78);
             this.fireTactor1.Name = "fireTactor1";
             this.fireTactor1.Size = new System.Drawing.Size(136, 34);
             this.fireTactor1.TabIndex = 2;
-            this.fireTactor1.Text = "Pulse Tactor 1";
+            this.fireTactor1.Text = "Fast Alert";
             this.fireTactor1.UseVisualStyleBackColor = true;
             this.fireTactor1.Click += new System.EventHandler(this.fireTactor1_Click);
             // 
             // fireTactor2
             // 
-            this.fireTactor2.Location = new System.Drawing.Point(49, 92);
+            this.fireTactor2.Location = new System.Drawing.Point(49, 118);
             this.fireTactor2.Name = "fireTactor2";
             this.fireTactor2.Size = new System.Drawing.Size(136, 34);
             this.fireTactor2.TabIndex = 3;
-            this.fireTactor2.Text = "Pulse Tactor 2";
+            this.fireTactor2.Text = "Slow Alert";
             this.fireTactor2.UseVisualStyleBackColor = true;
             this.fireTactor2.Click += new System.EventHandler(this.fireTactor2_Click);
             // 
@@ -81,7 +82,7 @@
             this.rampTactor1.Name = "rampTactor1";
             this.rampTactor1.Size = new System.Drawing.Size(136, 34);
             this.rampTactor1.TabIndex = 4;
-            this.rampTactor1.Text = "Ramp Tactor 1";
+            this.rampTactor1.Text = "TTC Ramp (Aud Tau)";
             this.rampTactor1.UseVisualStyleBackColor = true;
             this.rampTactor1.Click += new System.EventHandler(this.rampTactor1_Click);
             // 
@@ -91,7 +92,7 @@
             this.rampTactor2.Name = "rampTactor2";
             this.rampTactor2.Size = new System.Drawing.Size(136, 34);
             this.rampTactor2.TabIndex = 5;
-            this.rampTactor2.Text = "Ramp Tactor 2";
+            this.rampTactor2.Text = "Other Ramp (not Aud tau)";
             this.rampTactor2.UseVisualStyleBackColor = true;
             this.rampTactor2.Click += new System.EventHandler(this.rampTactor2_Click);
             // 

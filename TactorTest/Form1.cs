@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace TactorTest
 {
     public partial class Form1 : Form
     {
         private int ConnectedDeviceID = -1;
+        private string sComName;
         private static int MAX_GAIN = 255;
         private static double DISTANCE = 4.5;
         private static double SPEED = 3;
@@ -35,9 +37,29 @@ namespace TactorTest
         
         private void connectButton_Click(object sender, EventArgs e)
         {
-            string selectedComPort = "COM4";
+            int ret = Tdk.TdkInterface.Discover((int)Tdk.TdkDefines.DeviceTypes.Serial);
+            if (ret > 0)
+            {
+                WriteMessageToGUIConsole("Discover Found:\n");
+                //populate combo box with discovered names
+                for (int i = 0; i < ret; i++)
+                {
+                    //Gets the discovered device name at the index i
+                    System.IntPtr discoveredNamePTR = Tdk.TdkInterface.GetDiscoveredDeviceName(i);
+                    if (discoveredNamePTR != null)
+                    {
+                        sComName = Marshal.PtrToStringAnsi(discoveredNamePTR);
+                        WriteMessageToGUIConsole(sComName + "\n");
+                    }
+                    else
+                        WriteMessageToGUIConsole(Tdk.TdkDefines.GetLastEAIErrorString());
+                }
+
+            }
+
+            string selectedComPort = sComName;
             WriteMessageToGUIConsole("Connecting to com port " + selectedComPort + "\n");
-            int ret = Tdk.TdkInterface.Connect(selectedComPort,
+            ret = Tdk.TdkInterface.Connect(selectedComPort,
                                                (int)Tdk.TdkDefines.DeviceTypes.Serial,
                                                 System.IntPtr.Zero);
 
@@ -80,31 +102,32 @@ namespace TactorTest
 
         private void fireTactor1_Click(object sender, EventArgs e)
         {
-            WriteMessageToGUIConsole("Pulse tactor 1\n");
-            CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 250, 0));
+            WriteMessageToGUIConsole("Fast Alert\n");
+            CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100, 0));
+            CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100, 12));
+            CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100, 24));
+            CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100, 36));
         }
 
         private void fireTactor2_Click(object sender, EventArgs e)
         {
-            WriteMessageToGUIConsole("Pulse tactor 2\n");
-            CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedDeviceID, 2, 250, 0));
+            WriteMessageToGUIConsole("Slow Alert\n");
+            CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100, 0));
+            CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100, 50));
+            CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100, 100));
+            CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100, 150));
         }
 
         private void rampTactor1_Click(object sender, EventArgs e)
         {
-            /*int timeFactor = 10;
-            Tdk.TdkInterface.RampGain(ConnectedDeviceID, 1, 10, 255, 100 * timeFactor, Tdk.TdkDefines.RampLinear, 0);
-            Tdk.TdkInterface.RampFreq(ConnectedDeviceID, 1, 300, 3500, 100 * timeFactor, Tdk.TdkDefines.RampLinear, 0);
-            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100 * timeFactor, 0);
-            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100 * timeFactor, 0);
-            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100 * timeFactor, 0);
-            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100 * timeFactor, 0);
-            */
+            WriteMessageToGUIConsole("Auditory Tau Ramp over 1.5s\n");
+
             byte[] tactor_array = new byte[64]; //byte array of tactors
             tactor_array[0] = 1; //tactor 1 = on
 
             int step = 0;
 
+            
             Tdk.TdkInterface.ChangeGain(ConnectedDeviceID, 0, 1, 0);
             Tdk.TdkInterface.SetTactors(ConnectedDeviceID, 0, tactor_array);
             
@@ -136,27 +159,28 @@ namespace TactorTest
         private void rampTactor2_Click(object sender, EventArgs e)
         {
             int timeFactor = 10;
-            Tdk.TdkInterface.RampGain(ConnectedDeviceID, 2, 10, 255, 100 * timeFactor, Tdk.TdkDefines.RampLinear, 0);
-            Tdk.TdkInterface.RampFreq(ConnectedDeviceID, 2, 300, 3500, 100 * timeFactor, Tdk.TdkDefines.RampLinear, 0);
-            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 2, 100 * timeFactor, 0);
-            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 2, 100 * timeFactor, 0);
-            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 2, 100 * timeFactor, 0);
-            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 2, 100 * timeFactor, 0);
+            WriteMessageToGUIConsole("Other Ramp\n");
+            Tdk.TdkInterface.RampGain(ConnectedDeviceID, 1, 10, 255, 100 * timeFactor, Tdk.TdkDefines.RampLinear, 0);
+            Tdk.TdkInterface.RampFreq(ConnectedDeviceID, 1, 300, 3500, 100 * timeFactor, Tdk.TdkDefines.RampLinear, 0);
+            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100 * timeFactor, 0);
+            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100 * timeFactor, 0);
+            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100 * timeFactor, 0);
+            Tdk.TdkInterface.Pulse(ConnectedDeviceID, 1, 100 * timeFactor, 0);
 
         }
 
         static double getNewGain(double t, double r, double v)
         {
-            //####
-            //
-            //getNewGain
-            // @param double t: time value passed to determine the distance of the object along the looming curve
-            // @param int d: value of distance passed
-            // @param int s: value of speed passed
-            // Follows the function for I = kr^-2 in Shaw, B. K., McGowan, R. S., & Turvey, M. T. (1991). An acoustic variable specifying time-to-contact. Ecological Psychology, 3(3), 253-261.
-            // Where: k is constant; r is the distance of the object; and I = the intensity of the sound that follows an inverse square law related to distance of the object
-            //
-            //#####
+            /*************
+            '
+            ' getNewGain
+            ' @param double t: time value passed to determine the distance of the object along the looming curve
+            ' @param int d: value of distance passed
+            ' @param int s: value of speed passed
+            ' Follows the function for I = kr^-2 in Shaw, B. K., McGowan, R. S., & Turvey, M. T. (1991). An acoustic variable specifying time-to-contact. Ecological Psychology, 3(3), 253-261.
+            ' Where: k is constant; r is the distance of the object; and I = the intensity of the sound that follows an inverse square law related to distance of the object
+            '
+            **************/
             double r_traveled = (r - (v * t)); //break down the equation; calculate the amount the object has traveled
             double temp2 = 1 / (Math.Pow(r_traveled, 2)); //Math.pow returns 0 for number raised to neagtive power; so we instead do 1 / r^2
             double I = K * temp2; //Multiply by constant K
@@ -169,6 +193,14 @@ namespace TactorTest
                 return MAX_GAIN; //function is approaching infinity, return max value
             }
             
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            // set the current caret position to the end
+            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            // scroll it automatically
+            richTextBox1.ScrollToCaret();
         }
     }
 }
