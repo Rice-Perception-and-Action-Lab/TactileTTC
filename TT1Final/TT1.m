@@ -101,6 +101,8 @@ texture_ready = Screen('MakeTexture', w, img10);
 texture_startpractice = Screen('MakeTexture', w, img11);
 [img12, ~, ~] = imread('startreal.png');
 texture_startreal = Screen('MakeTexture', w, img12);
+[img13, ~, ~] = imread('check.png');
+texture_check = Screen('MakeTexture', w, img13);
 %END OF MAKE TEXTURES
 
 
@@ -144,7 +146,13 @@ Screen('DrawTexture', w, texture_instruction, [], smallIm);
 Screen('Flip', w);
 KbStrokeWait;
 
+
+
 Screen('DrawTexture', w, texture_startpractice, [], smallIm);
+Screen('Flip', w);
+KbStrokeWait;
+
+Screen('DrawTexture', w, texture_check, [], smallIm);
 Screen('Flip', w);
 KbStrokeWait;
 
@@ -180,6 +188,7 @@ for i = 1:numPractice
 
         % ESC key quits the experiment
         if keyCode(KbName('ESCAPE')) == 1
+ 
         %    clear all
             close all
             sca
